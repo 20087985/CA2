@@ -16,6 +16,25 @@
     <main>
         <section class="card">
             <h2>Log New Production Batch / Raw Stock</h2>
+            <form id="bakeryForm">
+                <div class="form-group">
+                    <input type="text" id="itemName" placeholder="Item Name" required>
+                </div>
+                <div class="form-group">
+                    <select id="category" required>
+                        <option value="" disabled selected>Select Category</option>
+                        <option value="Baked Goods">Freshly Baked Goods (Bread/Pastries)</option>
+                        <option value="Confectionery">Confectionery & Cakes</option>
+                        <option value="Dairy & Eggs">Dairy, Cream & Eggs</option>
+                        <option value="Dry Ingredients">Dry Ingredients (Yeast/Flour)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="expiryDate">Batch Expiry Date:</label>
+                    <input type="date" id="expiryDate" required>
+                </div>
+                <button type="submit" class="btn">Log Batch</button>
+            </form>
         </section>
 
      
