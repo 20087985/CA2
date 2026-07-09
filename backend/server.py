@@ -49,6 +49,23 @@ class BakeryInventoryHandler(BaseHTTPRequestHandler):
 
             self._set_headers(201)
             self.wfile.write(bytes(json.dumps(new_batch), "utf-8"))
+
+    def do_DELETE(self):
+        if self.path.startswith("/api/inventory"):
+            from urllib.parse import urlparse, parse_qs
+            query = parse_qs(urlparse(self.path).query)
+            item_id = int(query.get('id')[0])
+
+            with open(DB_FILE, 'r+') as f:
+                data = json.load(f)
+                filtered_data = [item for item in data if item.get('id') != item_id]
+                
+                f.seek(0)
+                json.dump(filtered_data, f, indent=4)
+                f.truncate()
+
+            self._set_headers(200)
+            self.wfile.write(bytes(json.dumps({"message": "Batch removed successfully"}), "utf-8"))
     
 
 
