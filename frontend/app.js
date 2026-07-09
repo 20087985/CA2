@@ -16,7 +16,7 @@ async function fetchInventory() {
 
 function renderTable(items) {
     const tableBody = document.getElementById('inventoryTableBody');
-    tableBody.innerHTML = ''; 
+    tableBody.innerHTML = '';
 
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -56,4 +56,24 @@ function renderTable(items) {
         `;
         tableBody.appendChild(tr);
     });
+
+    async function addBatch(e) {
+        e.preventDefault();
+        const payload = {
+            itemName: document.getElementById('itemName').value,
+            category: document.getElementById('category').value,
+            expiryDate: document.getElementById('expiryDate').value
+        };
+
+        const response = await fetch(API_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+
+        if (response.ok) {
+            document.getElementById('bakeryForm').reset();
+            fetchInventory();
+        }
+    }
 }
