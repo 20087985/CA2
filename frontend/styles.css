@@ -42,4 +42,44 @@ form input, form select, .btn {
     font-size: 1rem;
 }
 
+.btn {
+    background-color: #865439;
+    color: white;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+}
+.btn:hover { background-color: #5c3d2e; }
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+th, td {
+    padding: 14px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+th { background-color: #f9f6f4; color: #5c3d2e; }
+.status-expired { background-color: #fce8e6; color: #a81c1c; }
+.status-critical { background-color: #fdf2e2; color: #b25e00; font-weight: bold; }
+.status-warning { background-color: #fffde6; color: #8a7300; }
+.status-fresh { background-color: #edf7ed; color: #1e4620; }
+.category-tag {
+    font-size: 0.85rem;
+    background: #eaeaea;
+    padding: 4px 8px;
+    border-radius: 4px;
+    color: #666;
+}
+.delete-btn {
+    background-color: #ba3c3c;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.delete-btn:hover { background-color: #912d2d; }
+
 
