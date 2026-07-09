@@ -31,6 +31,26 @@ class BakeryInventoryHandler(BaseHTTPRequestHandler):
             self.wfile.write(bytes(json.dumps(data), "utf-8"))
         else:
             self._set_headers(404)
+    
+    def do_POST(self):
+        if self.path == "/api/inventory":
+            content_length = int(self.headers['Content-Length'])
+            post_data = self.rfile.read(content_length)
+            new_batch = json.loads(post_data.decode('utf-8'))
+
+            with open(DB_FILE, 'r+') as f:
+                data = json.load(f)
+                new_batch['id'] = len(data) + 1
+                data.append(new_batch)
+                
+                f.seek(0)
+                json.dump(data, f, indent=4)
+                f.truncate()
+
+            self._set_headers(201)
+            self.wfile.write(bytes(json.dumps(new_batch), "utf-8"))
+    
+
 
 def run_server():
     print(f"FreshTrack CRUD API Server running live at http://localhost:{PORT}")
