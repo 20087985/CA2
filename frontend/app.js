@@ -76,4 +76,15 @@ function renderTable(items) {
             fetchInventory();
         }
     }
+
+    async function deleteItem(id) {
+        const response = await fetch(`${API_URL}?id=${id}`, {
+            method: 'DELETE'
+        });
+        if (response.ok) {
+            fetchInventory();
+        }
+    }
+
+
 }
