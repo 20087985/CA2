@@ -22,3 +22,24 @@ main {
     max-width: 850px;
     margin: 0 auto;
 }
+
+.card {
+    background: #ffffff;
+    padding: 25px;
+    margin-bottom: 25px;
+    border-radius: 8px;
+    border: 1px solid #eaeaea;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
+}
+.card h2 { margin-top: 0; color: #5c3d2e; font-size: 1.3rem; border-bottom: 2px solid #f5ede6; padding-bottom: 8px;}
+.form-group { margin-bottom: 15px; }
+form input, form select, .btn {
+    width: 100%;
+    padding: 12px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    font-size: 1rem;
+}
+
+
