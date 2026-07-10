@@ -83,3 +83,23 @@ th { background-color: #f9f6f4; color: #5c3d2e; }
 .delete-btn:hover { background-color: #912d2d; }
 
 
+.filter-panel {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+.filter-panel input {
+    flex: 2;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+}
+.filter-panel select {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background-color: #fff;
+}
+
+

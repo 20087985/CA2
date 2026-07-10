@@ -36,8 +36,20 @@
                 <button type="submit" class="btn">Log Batch</button>
             </form>
         </section>
-        <section class="card">
-            <h2>Active Expiry Alerts</h2>
+    <section class="card">
+            <h2>Active Expiry Alerts & Inventory</h2>
+            
+            <div class="filter-panel">
+                <input type="text" id="searchInput" placeholder="🔍 Search items by name..." onkeyup="filterInventory()">
+                <select id="filterCategory" onchange="filterInventory()">
+                    <option value="ALL">All Categories</option>
+                    <option value="Baked Goods">Fresh Baked Goods</option>
+                    <option value="Confectionery">Cakes & Confectionery</option>
+                    <option value="Dairy & Eggs">Dairy, Cream & Eggs</option>
+                    <option value="Dry Ingredients">Flour, Yeast & Dry Mixes</option>
+                </select>
+            </div>
+
             <table>
                 <thead>
                     <tr>

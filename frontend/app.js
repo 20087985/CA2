@@ -1,4 +1,5 @@
 const API_URL = 'http://localhost:8000/api/inventory';
+let localInventoryCache = []; 
 
 document.addEventListener('DOMContentLoaded', fetchInventory);
 document.getElementById('bakeryForm').addEventListener('submit', addBatch);
@@ -6,12 +7,13 @@ document.getElementById('bakeryForm').addEventListener('submit', addBatch);
 async function fetchInventory() {
     try {
         const response = await fetch(API_URL);
-        const data = await response.json();
-        renderTable(data);
+        localInventoryCache = await response.json(); 
+        renderTable(localInventoryCache);
     } catch (err) {
         console.error("Failed to connect with backend service API:", err);
     }
 }
+
 
 function renderTable(items) {
     const tableBody = document.getElementById('inventoryTableBody');
@@ -40,7 +42,7 @@ function renderTable(items) {
             statusLabel = `⏳ Use First (${daysLeft} Days Left)`;
             rowAlertClass = 'status-warning';
         } else {
-            statusLabel = '✅ Safe / Fresh';
+            statusLabel = 'Safe / Fresh';
             rowAlertClass = 'status-fresh';
         }
 
@@ -57,7 +59,21 @@ function renderTable(items) {
     });
 }
 
- 
+
+function filterInventory() {
+    const searchString = document.getElementById('searchInput').value.toLowerCase();
+    const targetCategory = document.getElementById('filterCategory').value;
+
+    const filteredResults = localInventoryCache.filter(item => {
+        const matchesSearch = item.itemName.toLowerCase().includes(searchString);
+        const matchesCategory = (targetCategory === 'ALL' || item.category === targetCategory);
+        return matchesSearch && matchesCategory;
+    });
+
+    renderTable(filteredResults);
+}
+
+
 async function addBatch(e) {
     e.preventDefault();
     
@@ -82,6 +98,7 @@ async function addBatch(e) {
         console.error("Error logging batch entry:", err);
     }
 }
+
 
 async function deleteItem(id) {
     try {
