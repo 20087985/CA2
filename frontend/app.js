@@ -13,10 +13,9 @@ async function fetchInventory() {
     }
 }
 
-
 function renderTable(items) {
     const tableBody = document.getElementById('inventoryTableBody');
-    tableBody.innerHTML = '';
+    tableBody.innerHTML = ''; 
 
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -56,15 +55,19 @@ function renderTable(items) {
         `;
         tableBody.appendChild(tr);
     });
+}
 
-    async function addBatch(e) {
-        e.preventDefault();
-        const payload = {
-            itemName: document.getElementById('itemName').value,
-            category: document.getElementById('category').value,
-            expiryDate: document.getElementById('expiryDate').value
-        };
+ 
+async function addBatch(e) {
+    e.preventDefault();
+    
+    const payload = {
+        itemName: document.getElementById('itemName').value,
+        category: document.getElementById('category').value,
+        expiryDate: document.getElementById('expiryDate').value
+    };
 
+    try {
         const response = await fetch(API_URL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -73,18 +76,22 @@ function renderTable(items) {
 
         if (response.ok) {
             document.getElementById('bakeryForm').reset();
-            fetchInventory();
+            fetchInventory(); 
         }
+    } catch (err) {
+        console.error("Error logging batch entry:", err);
     }
+}
 
-    async function deleteItem(id) {
+async function deleteItem(id) {
+    try {
         const response = await fetch(`${API_URL}?id=${id}`, {
             method: 'DELETE'
         });
         if (response.ok) {
-            fetchInventory();
+            fetchInventory(); 
         }
+    } catch (err) {
+        console.error("Error removing batch item:", err);
     }
-
-
 }
