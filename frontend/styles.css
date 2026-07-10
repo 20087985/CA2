@@ -102,4 +102,62 @@ th { background-color: #f9f6f4; color: #5c3d2e; }
     background-color: #fff;
 }
 
+.tab-navigation {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+.tab-btn {
+    flex: 1;
+    padding: 12px;
+    font-size: 1rem;
+    font-weight: bold;
+    background-color: #eaeaea;
+    color: #5c3d2e;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+.tab-btn:hover {
+    background-color: #ddd;
+}
+.tab-btn.active {
+    background-color: #5c3d2e;
+    color: #fff;
+}
+
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active-content {
+    display: block;
+}
+
+
+.analytics-container {
+    display: flex;
+    gap: 20px;
+    margin-top: 15px;
+}
+.analytics-box {
+    flex: 1;
+    text-align: center;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+}
+.analytics-box h3 {
+    margin: 0;
+    font-size: 2.5rem;
+}
+.analytics-box p {
+    margin: 5px 0 0;
+    font-weight: bold;
+}
+.fresh-box { background-color: #edf7ed; color: #1e4620; border: 1px solid #c8e6c9; }
+.waste-box { background-color: #fce8e6; color: #a81c1c; border: 1px solid #ffcdd2; }
+
 

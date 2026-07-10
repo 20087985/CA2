@@ -1,72 +1,112 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FreshTrack: Bakery Expiry Tracker</title>
+    <title>Expiry & Inventory Monitoring System for Bakery</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header>
         <h1>FreshTrack Bakery Dashboard</h1>
-        <p>Real-Time Batch Expiry & Shelf-Life Management</p>
+        <p>Real-Time Batch Expiry & Stock Management</p>
     </header>
 
     <main>
-        <section class="card">
-            <h2>Log New Production Batch / Raw Stock</h2>
-            <form id="bakeryForm">
-                <div class="form-group">
-                    <input type="text" id="itemName" placeholder="Item Name" required>
-                </div>
-                <div class="form-group">
-                    <select id="category" required>
-                        <option value="" disabled selected>Select Category</option>
-                        <option value="Baked Goods">Freshly Baked Goods (Bread/Pastries)</option>
-                        <option value="Confectionery">Confectionery & Cakes</option>
+        <nav class="tab-navigation">
+            <button class="tab-btn active" onclick="switchTab(event, 'inventory-tab')">📋 Active Inventory</button>
+            <button class="tab-btn" onclick="switchTab(event, 'waste-tab')">📊 Waste Reporting</button>
+            <button class="tab-btn" onclick="switchTab(event, 'analytics-tab')">💡 Kitchen Analytics</button>
+        </nav>
+
+        <div id="inventory-tab" class="tab-content active-content">
+            <section class="card">
+                <h2>Log Production Batch / Raw Stock</h2>
+                <form id="bakeryForm">
+                    <div class="form-group">
+                        <input type="text" id="itemName" placeholder="Item Name" required>
+                    </div>
+                    <div class="form-group">
+                        <select id="category" required>
+                            <option value="" disabled selected>Select Category</option>
+                            <option value="Baked Goods">Fresh Baked Goods</option>
+                            <option value="Confectionery">Cakes & Confectionery</option>
+                            <option value="Dairy & Eggs">Dairy, Cream & Eggs</option>
+                            <option value="Dry Ingredients">Flour, Yeast & Dry Mixes</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="expiryDate">Expiration Target Date:</label>
+                        <input type="date" id="expiryDate" required>
+                    </div>
+                    <button type="submit" class="btn">Log Entry</button>
+                </form>
+            </section>
+
+            <section class="card">
+                <h2>Active Expiry Alerts & Inventory</h2>
+                <div class="filter-panel">
+                    <input type="text" id="searchInput" placeholder="Search active items..." onkeyup="filterInventory()">
+                    <select id="filterCategory" onchange="filterInventory()">
+                        <option value="ALL">All Categories</option>
+                        <option value="Baked Goods">Fresh Baked Goods</option>
+                        <option value="Confectionery">Cakes & Confectionery</option>
                         <option value="Dairy & Eggs">Dairy, Cream & Eggs</option>
-                        <option value="Dry Ingredients">Dry Ingredients (Yeast/Flour)</option>
+                        <option value="Dry Ingredients">Flour, Yeast & Dry Mixes</option>
                     </select>
                 </div>
-                <div class="form-group">
-                    <label for="expiryDate">Batch Expiry Date:</label>
-                    <input type="date" id="expiryDate" required>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Batch Item</th>
+                            <th>Category</th>
+                            <th>Expiry Date</th>
+                            <th>Shelf-Life Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="inventoryTableBody">
+                        </tbody>
+                </table>
+            </section>
+        </div>
+
+        <div id="waste-tab" class="tab-content">
+            <section class="card">
+                <h2>Expired Batches Log (Kitchen Action Required)</h2>
+                <p style="color: #666;">These items have exceeded their expiration thresholds and must be pulled from rotation immediately.</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Expired Item</th>
+                            <th>Category</th>
+                            <th>Expired On</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="wasteTableBody">
+                        </tbody>
+                </table>
+            </section>
+        </div>
+
+        <div id="analytics-tab" class="tab-content">
+            <section class="card">
+                <h2>Bakery Operations Overview</h2>
+                <div class="analytics-container">
+                    <div class="analytics-box fresh-box">
+                        <h3 id="countFresh">0</h3>
+                        <p>Safe / Active Items</p>
+                    </div>
+                    <div class="analytics-box waste-box">
+                        <h3 id="countWaste">0</h3>
+                        <p>Total Expired Batches</p>
+                    </div>
                 </div>
-                <button type="submit" class="btn">Log Batch</button>
-            </form>
-        </section>
-    <section class="card">
-            <h2>Active Expiry Alerts & Inventory</h2>
-            
-            <div class="filter-panel">
-                <input type="text" id="searchInput" placeholder="🔍 Search items by name..." onkeyup="filterInventory()">
-                <select id="filterCategory" onchange="filterInventory()">
-                    <option value="ALL">All Categories</option>
-                    <option value="Baked Goods">Fresh Baked Goods</option>
-                    <option value="Confectionery">Cakes & Confectionery</option>
-                    <option value="Dairy & Eggs">Dairy, Cream & Eggs</option>
-                    <option value="Dry Ingredients">Flour, Yeast & Dry Mixes</option>
-                </select>
-            </div>
-
-            <table>
-                <thead>
-                    <tr>
-                        <th>Batch Item</th>
-                        <th>Category</th>
-                        <th>Expiry Date</th>
-                        <th>Shelf-Life Status</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody id="inventoryTableBody">
-                    </tbody>
-            </table>
-        </section>
-
-     
+            </section>
+        </div>
     </main>
+
     <script src="app.js"></script>
 </body>
 </html>
