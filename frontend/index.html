@@ -2,6 +2,51 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <title>Standard Boilerplate Login & Registration</title>
+    <style>
+        .auth-container { width: 300px; margin: 50px auto; padding: 20px; border: 1px solid #ccc; }
+        .form-group { margin-bottom: 15px; }
+        .form-group input { width: 100%; padding: 8px; box-sizing: border-box; }
+        .toggle-link { text-align: center; margin-top: 10px; cursor: pointer; color: blue; }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+    <div id="loginFormContainer" class="auth-container">
+        <h2>Login</h2>
+        <form id="genericLoginForm">
+            <div class="form-group"><input type="text" id="loginUser" placeholder="Username" required></div>
+            <div class="form-group"><input type="password" id="loginPass" placeholder="Password" required></div>
+            <button type="submit">Submit</button>
+        </form>
+        <div class="toggle-link" onclick="toggleAuthForms()">Create an account</div>
+    </div>
+
+    <div id="registerFormContainer" class="auth-container hidden">
+        <h2>Register</h2>
+        <form id="genericRegisterForm">
+            <div class="form-group"><input type="text" id="regUser" placeholder="Username" required></div>
+            <div class="form-group"><input type="password" id="regPass" placeholder="Password" required></div>
+            <button type="submit">Register</button>
+        </form>
+        <div class="toggle-link" onclick="toggleAuthForms()">Already have an account? Login</div>
+    </div>
+
+    <script>
+        function toggleAuthForms() {
+            document.getElementById('loginFormContainer').classList.toggle('hidden');
+            document.getElementById('registerFormContainer').classList.toggle('hidden');
+        }
+    </script>
+</body>
+</html>
+
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Expiry & Inventory Monitoring System for Bakery</title>
     <link rel="stylesheet" href="styles.css">
@@ -109,4 +154,4 @@
 
     <script src="app.js"></script>
 </body>
-</html>
+</html> -->
