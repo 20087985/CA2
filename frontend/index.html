@@ -2,156 +2,90 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Standard Boilerplate Login & Registration</title>
-    <style>
-        .auth-container { width: 300px; margin: 50px auto; padding: 20px; border: 1px solid #ccc; }
-        .form-group { margin-bottom: 15px; }
-        .form-group input { width: 100%; padding: 8px; box-sizing: border-box; }
-        .toggle-link { text-align: center; margin-top: 10px; cursor: pointer; color: blue; }
-        .hidden { display: none; }
-    </style>
-</head>
-<body>
-    <div id="loginFormContainer" class="auth-container">
-        <h2>Login</h2>
-        <form id="genericLoginForm">
-            <div class="form-group"><input type="text" id="loginUser" placeholder="Username" required></div>
-            <div class="form-group"><input type="password" id="loginPass" placeholder="Password" required></div>
-            <button type="submit">Submit</button>
-        </form>
-        <div class="toggle-link" onclick="toggleAuthForms()">Create an account</div>
-    </div>
-
-    <div id="registerFormContainer" class="auth-container hidden">
-        <h2>Register</h2>
-        <form id="genericRegisterForm">
-            <div class="form-group"><input type="text" id="regUser" placeholder="Username" required></div>
-            <div class="form-group"><input type="password" id="regPass" placeholder="Password" required></div>
-            <button type="submit">Register</button>
-        </form>
-        <div class="toggle-link" onclick="toggleAuthForms()">Already have an account? Login</div>
-    </div>
-
-    <script>
-        function toggleAuthForms() {
-            document.getElementById('loginFormContainer').classList.toggle('hidden');
-            document.getElementById('registerFormContainer').classList.toggle('hidden');
-        }
-    </script>
-</body>
-</html>
-
-
-
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Expiry & Inventory Monitoring System for Bakery</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header>
-        <h1>FreshTrack Bakery Dashboard</h1>
-        <p>Real-Time Batch Expiry & Stock Management</p>
-    </header>
-
-    <main>
-        <nav class="tab-navigation">
-            <button class="tab-btn active" onclick="switchTab(event, 'inventory-tab')">📋 Active Inventory</button>
-            <button class="tab-btn" onclick="switchTab(event, 'waste-tab')">📊 Waste Reporting</button>
-            <button class="tab-btn" onclick="switchTab(event, 'analytics-tab')">💡 Kitchen Analytics</button>
-        </nav>
-
-        <div id="inventory-tab" class="tab-content active-content">
-            <section class="card">
-                <h2>Log Production Batch / Raw Stock</h2>
-                <form id="bakeryForm">
-                    <div class="form-group">
-                        <input type="text" id="itemName" placeholder="Item Name" required>
-                    </div>
-                    <div class="form-group">
-                        <select id="category" required>
-                            <option value="" disabled selected>Select Category</option>
-                            <option value="Baked Goods">Fresh Baked Goods</option>
-                            <option value="Confectionery">Cakes & Confectionery</option>
-                            <option value="Dairy & Eggs">Dairy, Cream & Eggs</option>
-                            <option value="Dry Ingredients">Flour, Yeast & Dry Mixes</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="expiryDate">Expiration Target Date:</label>
-                        <input type="date" id="expiryDate" required>
-                    </div>
-                    <button type="submit" class="btn">Log Entry</button>
-                </form>
-            </section>
-
-            <section class="card">
-                <h2>Active Expiry Alerts & Inventory</h2>
-                <div class="filter-panel">
-                    <input type="text" id="searchInput" placeholder="Search active items..." onkeyup="filterInventory()">
-                    <select id="filterCategory" onchange="filterInventory()">
-                        <option value="ALL">All Categories</option>
-                        <option value="Baked Goods">Fresh Baked Goods</option>
-                        <option value="Confectionery">Cakes & Confectionery</option>
-                        <option value="Dairy & Eggs">Dairy, Cream & Eggs</option>
-                        <option value="Dry Ingredients">Flour, Yeast & Dry Mixes</option>
-                    </select>
-                </div>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Batch Item</th>
-                            <th>Category</th>
-                            <th>Expiry Date</th>
-                            <th>Shelf-Life Status</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody id="inventoryTableBody">
-                        </tbody>
-                </table>
-            </section>
+    <div id="authScreen" class="auth-overlay">
+        <div class="auth-card">
+            <h2 id="authTitle">🧁 FreshTrack Staff Login</h2>
+            <form id="authForm">
+                <input type="text" id="authUsername" placeholder="Staff Username" required>
+                <input type="password" id="authPassword" placeholder="Security Password" required>
+                <button type="submit" id="authSubmitBtn" class="btn">Access Dashboard</button>
+            </form>
+            <p id="authToggleLink" onclick="toggleAuthMode()">New staff? Create account</p>
         </div>
+    </div>
 
-        <div id="waste-tab" class="tab-content">
-            <section class="card">
-                <h2>Expired Batches Log (Kitchen Action Required)</h2>
-                <p style="color: #666;">These items have exceeded their expiration thresholds and must be pulled from rotation immediately.</p>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Expired Item</th>
-                            <th>Category</th>
-                            <th>Expired On</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody id="wasteTableBody">
-                        </tbody>
-                </table>
-            </section>
-        </div>
+    <div id="appContainer" style="display: none;">
+        <header>
+            <h1>🧁 FreshTrack Bakery Dashboard</h1>
+            <p>Welcome, <span id="currentStaffLabel">Staff</span> | <a href="#" onclick="logout()" style="color: #ffcdd2;">Logout</a></p>
+        </header>
 
-        <div id="analytics-tab" class="tab-content">
-            <section class="card">
-                <h2>Bakery Operations Overview</h2>
-                <div class="analytics-container">
-                    <div class="analytics-box fresh-box">
-                        <h3 id="countFresh">0</h3>
-                        <p>Safe / Active Items</p>
+        <main>
+            <nav class="tab-navigation">
+                <button class="tab-btn active" onclick="switchTab(event, 'inventory-tab')">📋 Active Inventory</button>
+                <button class="tab-btn" onclick="switchTab(event, 'waste-tab')">📊 Waste Reporting</button>
+                <button class="tab-btn" onclick="switchTab(event, 'analytics-tab')">💡 Kitchen Analytics</button>
+            </nav>
+
+            <div id="inventory-tab" class="tab-content active-content">
+                <section class="card">
+                    <h2>Log Production Batch / Raw Material</h2>
+                    <form id="bakeryForm">
+                        <div class="form-group"><input type="text" id="itemName" placeholder="Item Name" required></div>
+                        <div class="form-group">
+                            <select id="category" required>
+                                <option value="" disabled selected>Select Category</option>
+                                <option value="Baked Goods">Fresh Baked Goods</option>
+                                <option value="Confectionery">Cakes & Confectionery</option>
+                                <option value="Dairy & Eggs">Dairy, Cream & Eggs</option>
+                                <option value="Dry Ingredients">Flour, Yeast & Dry Mixes</option>
+                            </select>
+                        </div>
+                        <div class="form-group"><input type="date" id="expiryDate" required></div>
+                        <button type="submit" class="btn">Log Entry</button>
+                    </form>
+                </section>
+
+                <section class="card">
+                    <h2>Active Expiry Alerts & Inventory</h2>
+                    <div class="filter-panel">
+                        <input type="text" id="searchInput" placeholder="🔍 Search active items..." onkeyup="filterInventory()">
                     </div>
-                    <div class="analytics-box waste-box">
-                        <h3 id="countWaste">0</h3>
-                        <p>Total Expired Batches</p>
-                    </div>
-                </div>
-            </section>
-        </div>
-    </main>
+                    <table>
+                        <thead>
+                            <tr><th>Batch Item</th><th>Category</th><th>Expiry Date</th><th>Shelf-Life Status</th><th>Action</th></tr>
+                        </thead>
+                        <tbody id="inventoryTableBody"></tbody>
+                    </table>
+                </section>
+            </div>
 
+            <div id="waste-tab" class="tab-content">
+                <section class="card">
+                    <h2>Expired Batches Log</h2>
+                    <table>
+                        <thead><tr><th>Expired Item</th><th>Category</th><th>Expired On</th><th>Action</th></tr></thead>
+                        <tbody id="wasteTableBody"></tbody>
+                    </table>
+                </section>
+            </div>
+
+            <div id="analytics-tab" class="tab-content">
+                <section class="card">
+                    <h2>Bakery Operations Overview</h2>
+                    <div class="analytics-container">
+                        <div class="analytics-box fresh-box"><h3 id="countFresh">0</h3><p>Active Items</p></div>
+                        <div class="analytics-box waste-box"><h3 id="countWaste">0</h3><p>Expired Batches</p></div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
     <script src="app.js"></script>
 </body>
-</html> -->
+</html>
