@@ -3,17 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Expiry & Inventory Monitoring System for Bakery</title>
+    <title>The Pepper Pot Café - Expiry & Food Safety Log</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div id="authScreen" class="auth-overlay">
         <div class="auth-card">
-            <h2 id="authTitle">🧁 FreshTrack Staff Login</h2>
+            <h2 id="authTitle">The Pepper Pot Café Log</h2>
+            <p style="color: #865439; margin-bottom: 20px; font-size: 0.9rem;">Staff Identity Verification</p>
             <form id="authForm">
                 <input type="text" id="authUsername" placeholder="Staff Username" required>
                 <input type="password" id="authPassword" placeholder="Security Password" required>
-                <button type="submit" id="authSubmitBtn" class="btn">Access Dashboard</button>
+                <button type="submit" id="authSubmitBtn" class="btn">Access Kitchen Logs</button>
             </form>
             <p id="authToggleLink" onclick="toggleAuthMode()">New staff? Create account</p>
         </div>
@@ -21,8 +22,8 @@
 
     <div id="appContainer" style="display: none;">
         <header>
-            <h1>🧁 FreshTrack Bakery Dashboard</h1>
-            <p>Welcome, <span id="currentStaffLabel">Staff</span> | <a href="#" onclick="logout()" style="color: #ffcdd2;">Logout</a></p>
+            <h1>The Pepper Pot Café</h1>
+            <p>HACCP Expiry Logging & Freshness Control | User: <span id="currentStaffLabel">Staff</span> | <a href="#" onclick="logout()" style="color: #ffcdd2;">Logout</a></p>
         </header>
 
         <main>
@@ -34,19 +35,24 @@
 
             <div id="inventory-tab" class="tab-content active-content">
                 <section class="card">
-                    <h2>Log Production Batch / Raw Material</h2>
+                    <h2>Log Daily Batch / Kitchen Prep</h2>
                     <form id="bakeryForm">
-                        <div class="form-group"><input type="text" id="itemName" placeholder="Item Name" required></div>
+                        <div class="form-group">
+                            <input type="text" id="itemName" placeholder="Item Name (e.g., Organic Sourdough, Pear & Bacon Fillings)" required>
+                        </div>
                         <div class="form-group">
                             <select id="category" required>
-                                <option value="" disabled selected>Select Category</option>
-                                <option value="Baked Goods">Fresh Baked Goods</option>
-                                <option value="Confectionery">Cakes & Confectionery</option>
-                                <option value="Dairy & Eggs">Dairy, Cream & Eggs</option>
-                                <option value="Dry Ingredients">Flour, Yeast & Dry Mixes</option>
+                                <option value="" disabled selected>Select Kitchen Station</option>
+                                <option value="Artisan Breads">Artisan Breads & Loaves</option>
+                                <option value="Sweet Pastries">Sweet Pastries & Tarts</option>
+                                <option value="Prep & Fillings">Café Prep, Soups & Fillings</option>
+                                <option value="Dairy & Produce">Organic Dairy & Produce</option>
                             </select>
                         </div>
-                        <div class="form-group"><input type="date" id="expiryDate" required></div>
+                        <div class="form-group">
+                            <label for="expiryDate">HACCP Expiry Deadline:</label>
+                            <input type="date" id="expiryDate" required>
+                        </div>
                         <button type="submit" class="btn">Log Entry</button>
                     </form>
                 </section>
@@ -58,7 +64,7 @@
                     </div>
                     <table>
                         <thead>
-                            <tr><th>Batch Item</th><th>Category</th><th>Expiry Date</th><th>Shelf-Life Status</th><th>Action</th></tr>
+                            <tr><th>Batch Item</th><th>Kitchen Station</th><th>Expiry Date</th><th>Shelf-Life Status</th><th>Action</th></tr>
                         </thead>
                         <tbody id="inventoryTableBody"></tbody>
                     </table>
@@ -67,9 +73,9 @@
 
             <div id="waste-tab" class="tab-content">
                 <section class="card">
-                    <h2>Expired Batches Log</h2>
+                    <h2>Expired Batches Log (Kitchen Action Required)</h2>
                     <table>
-                        <thead><tr><th>Expired Item</th><th>Category</th><th>Expired On</th><th>Action</th></tr></thead>
+                        <thead><tr><th>Expired Item</th><th>Kitchen Station</th><th>Expired On</th><th>Action</th></tr></thead>
                         <tbody id="wasteTableBody"></tbody>
                     </table>
                 </section>
@@ -77,10 +83,10 @@
 
             <div id="analytics-tab" class="tab-content">
                 <section class="card">
-                    <h2>Bakery Operations Overview</h2>
+                    <h2>Café Operations Overview</h2>
                     <div class="analytics-container">
-                        <div class="analytics-box fresh-box"><h3 id="countFresh">0</h3><p>Active Items</p></div>
-                        <div class="analytics-box waste-box"><h3 id="countWaste">0</h3><p>Expired Batches</p></div>
+                        <div class="analytics-box fresh-box"><h3 id="countFresh">0</h3><p>Active Batches</p></div>
+                        <div class="analytics-box waste-box"><h3 id="countWaste">0</h3><p>Expired/Wasted Batches</p></div>
                     </div>
                 </section>
             </div>
