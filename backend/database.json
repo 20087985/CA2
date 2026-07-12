@@ -19,6 +19,12 @@
             "category": "Baked Goods",
             "expiryDate": "2026-07-12",
             "id": 1
+        },
+        {
+            "itemName": "cake",
+            "category": "Sweet Pastries",
+            "expiryDate": "2026-07-16",
+            "id": 2
         }
     ]
 }

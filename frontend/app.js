@@ -118,11 +118,30 @@ function filterInventory() {
 }
 
 async function addBatch(e) {
+  async function addBatch(e) {
     e.preventDefault();
+    
+    const itemNameInput = document.getElementById('itemName').value.trim();
+    const categoryInput = document.getElementById('category').value;
+    const expiryDateInput = document.getElementById('expiryDate').value;
+
+  
+
+
+
+    const selectedDate = new Date(expiryDateInput);
+    const maxFutureWindow = new Date();
+    maxFutureWindow.setFullYear(maxFutureWindow.getFullYear() + 1);
+
+    if (selectedDate > maxFutureWindow) {
+        alert("System Constraint Error: Expiration target cannot be further than 1 year in the future.");
+        return;
+    }
+
     const payload = {
-        itemName: document.getElementById('itemName').value,
-        category: document.getElementById('category').value,
-        expiryDate: document.getElementById('expiryDate').value
+        itemName: itemNameInput,
+        category: categoryInput,
+        expiryDate: expiryDateInput
     };
     const response = await fetch(`${API_URL}/inventory`, {
         method: 'POST',
