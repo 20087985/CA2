@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:8000/api';
+const API_URL = "http://34.105.141.153:8000";
 let localInventoryCache = []; 
 let isRegisterMode = false;
 
