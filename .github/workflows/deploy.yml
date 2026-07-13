@@ -12,7 +12,7 @@ jobs:
       - name: Checkout fresh repository source array
         uses: actions/checkout@v4
 
-     - name: Execute Remote SSH Pull Commands on Google Cloud VM
+      - name: Execute Remote SSH Pull Commands on Google Cloud VM
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: 34.105.141.153
