@@ -80,7 +80,7 @@ class BakeryInventoryHandler(BaseHTTPRequestHandler):
             self.wfile.write(bytes(json.dumps({"message": "Removed successfully"}), "utf-8"))
 
 def run_server():
-    server = HTTPServer(('localhost', PORT), BakeryInventoryHandler)
+    server = HTTPServer(('', PORT), BakeryInventoryHandler)
     server.serve_forever()
 
 if __name__ == "__main__":
