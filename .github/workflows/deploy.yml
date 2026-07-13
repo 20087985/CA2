@@ -1,0 +1,23 @@
+name: Automated Cloud Production Deployment
+
+on:
+  push:
+    branches:
+      - main  # Make sure this matches your default branch name (visible as 'main' at the bottom-left of your VS Code window)
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout fresh repository source array
+        uses: actions/checkout@v4
+
+      - name: Execute Remote SSH Pull Commands on Google Cloud VM
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: 34.105.141.153
+          username: basimasalim2001
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd /var/www/html
+            git pull origin main
