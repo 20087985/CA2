@@ -93,53 +93,7 @@ async function fetchInventory() {
     }
 }
 
-function renderPageSpecificData(items) {
-    const inventoryBody = document.getElementById('inventoryTableBody');
-    const wasteBody = document.getElementById('wasteTableBody');
-    
-    if (inventoryBody) inventoryBody.innerHTML = ''; 
-    if (wasteBody) wasteBody.innerHTML = '';
 
-    const today = new Date(); 
-    today.setHours(0, 0, 0, 0);
-    
-    let activeCount = 0; 
-    let wasteCount = 0;
-
-    items.forEach(item => {
-        const expiryDate = new Date(item.expiryDate); 
-        expiryDate.setHours(0,0,0,0);
-        const daysLeft = Math.ceil((expiryDate.getTime() - today.getTime()) / 86400000);
-
-        if (daysLeft < 0) {
-            wasteCount++;
-            if (wasteBody) {
-                const tr = document.createElement('tr'); 
-                tr.className = 'status-expired';
-                tr.innerHTML = `<td><strong>${item.itemName}</strong></td><td><span class="category-tag">${item.category}</span></td><td>${item.expiryDate}</td><td><button class="delete-btn" onclick="deleteItem(${item.id})">Dispose</button></td>`;
-                wasteBody.appendChild(tr);
-            }
-        } else {
-            activeCount++;
-            if (inventoryBody) {
-                let statusLabel = daysLeft === 0 ? '⚠️ Expires Today!' : (daysLeft <= 2 ? `⏳ ${daysLeft} Days Left` : '✅ Safe / Fresh');
-                let rowAlertClass = daysLeft === 0 ? 'status-critical' : (daysLeft <= 2 ? 'status-warning' : 'status-fresh');
-
-                const tr = document.createElement('tr'); 
-                tr.className = rowAlertClass;
-                tr.innerHTML = `<td><strong>${item.itemName}</strong></td><td><span class="category-tag">${item.category}</span></td><td>${item.expiryDate}</td><td><span class="badge">${statusLabel}</span></td><td><button class="delete-btn" onclick="deleteItem(${item.id})">Remove</button></td>`;
-                inventoryBody.appendChild(tr);
-            }
-        }
-    });
-
-    if (document.getElementById('countFresh')) {
-        document.getElementById('countFresh').innerText = activeCount;
-    }
-    if (document.getElementById('countWaste')) {
-        document.getElementById('countWaste').innerText = wasteCount;
-    }
-}
 
 function filterInventory() {
     const searchString = document.getElementById('searchInput').value.toLowerCase();
@@ -190,31 +144,71 @@ async function deleteItem(id) {
     if (response.ok) fetchInventory();
 }
 
-function renderTable() {
-    const tbody = document.getElementById("inventoryTableBody");
-    tbody.innerHTML = "";
-    const startIndex = (currentPage - 1) * recordsPerPage;
-    const endIndex = startIndex + recordsPerPage;
-    const pageItems = globalInventory.slice(startIndex, endIndex);
+function renderPageSpecificData(items) {
+    const inventoryBody = document.getElementById('inventoryTableBody');
+    const wasteBody = document.getElementById('wasteTableBody');
+    
+    if (inventoryBody) inventoryBody.innerHTML = ''; 
+    if (wasteBody) wasteBody.innerHTML = '';
 
-    pageItems.forEach(item => {
-        const row = `<tr>
-            <td>${item.name}</td>
-            <td>${item.category}</td>
-            <td>${item.expiryDate}</td>
-            <td>${item.status}</td>
-            <td><button onclick="deleteItem(${item.id})">Remove</button></td>
-        </tr>`;
-        tbody.innerHTML += row;
+    const today = new Date(); 
+    today.setHours(0, 0, 0, 0);
+
+
+    let activeItems = [];
+    let wasteCount = 0;
+    let activeCount = 0;
+
+    items.forEach(item => {
+        const expiryDate = new Date(item.expiryDate); 
+        expiryDate.setHours(0,0,0,0);
+        const daysLeft = Math.ceil((expiryDate.getTime() - today.getTime()) / 86400000);
+
+        if (daysLeft < 0) {
+            wasteCount++;
+            if (wasteBody) {
+                const tr = document.createElement('tr'); 
+                tr.className = 'status-expired';
+                tr.innerHTML = `<td><strong>${item.itemName}</strong></td><td><span class="category-tag">${item.category}</span></td><td>${item.expiryDate}</td><td><button class="delete-btn" onclick="deleteItem(${item.id})">Dispose</button></td>`;
+                wasteBody.appendChild(tr);
+            }
+        } else {
+            activeCount++;
+            activeItems.push({ ...item, daysLeft });
+        }
     });
 
 
-    document.getElementById("pageNumber").innerText = `Page ${currentPage}`;
-    document.getElementById("prevBtn").disabled = currentPage === 1;
-    document.getElementById("nextBtn").disabled = endIndex >= globalInventory.length;
+    if (document.getElementById('countFresh')) document.getElementById('countFresh').innerText = activeCount;
+    if (document.getElementById('countWaste')) document.getElementById('countWaste').innerText = wasteCount;
+
+
+    if (inventoryBody) {
+        const startIndex = (currentPage - 1) * recordsPerPage;
+        const endIndex = startIndex + recordsPerPage;
+        const pageItems = activeItems.slice(startIndex, endIndex);
+
+        pageItems.forEach(item => {
+            let statusLabel = item.daysLeft === 0 ? '⚠️ Expires Today!' : (item.daysLeft <= 2 ? `⏳ ${item.daysLeft} Days Left` : '✅ Safe / Fresh');
+            let rowAlertClass = item.daysLeft === 0 ? 'status-critical' : (item.daysLeft <= 2 ? 'status-warning' : 'status-fresh');
+
+            const tr = document.createElement('tr'); 
+            tr.className = rowAlertClass;
+            tr.innerHTML = `<td><strong>${item.itemName}</strong></td><td><span class="category-tag">${item.category}</span></td><td>${item.expiryDate}</td><td><span class="badge">${statusLabel}</span></td><td><button class="delete-btn" onclick="deleteItem(${item.id})">Remove</button></td>`;
+            inventoryBody.appendChild(tr);
+        });
+
+  
+        if (document.getElementById("pageNumber")) {
+            document.getElementById("pageNumber").innerText = `Page ${currentPage}`;
+            document.getElementById("prevBtn").disabled = currentPage === 1;
+            document.getElementById("nextBtn").disabled = endIndex >= activeItems.length;
+        }
+    }
 }
+
 
 function changePage(direction) {
     currentPage += direction;
-    renderTable();
+    renderPageSpecificData(localInventoryCache);
 }

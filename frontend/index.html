@@ -60,13 +60,26 @@
                         <button type="submit" class="btn">Log Entry</button>
                     </form>
                 </section>
-
                 <section class="card">
                     <h2>Active Expiry Alerts & Inventory</h2>
                     <div class="filter-panel">
                         <input type="text" id="searchInput" placeholder="🔍 Search active bakes..."
                             onkeyup="filterInventory()">
                     </div>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Batch Item</th>
+                                <th>Production Line</th>
+                                <th>Expiry Date</th>
+                                <th>Shelf-Life Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="inventoryTableBody"></tbody>
+                    </table>
+
                     <div class="pagination-controls"
                         style="display: flex; gap: 10px; justify-content: center; margin-top: 15px;">
                         <button id="prevBtn" onclick="changePage(-1)" class="btn-small">Previous</button>
