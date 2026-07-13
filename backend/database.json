@@ -21,10 +21,10 @@
             "id": 1
         },
         {
-            "itemName": "cake",
-            "category": "Sweet Pastries",
-            "expiryDate": "2026-07-16",
-            "id": 2
+            "itemName": "Bread",
+            "category": "Sourdough & Loaves",
+            "expiryDate": "2026-07-22",
+            "id": 3
         }
     ]
 }

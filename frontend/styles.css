@@ -174,3 +174,29 @@ th { background-color: #f9f6f4; color: #5c3d2e; }
 #authToggleLink {
     margin-top: 15px; color: #865439; cursor: pointer; font-weight: bold; font-size: 0.9rem;
 }
+.navbar {
+    display: flex;
+    background-color: #1a1a1a;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 25px;
+    gap: 10px;
+}
+.navbar a {
+    color: #ced4da;
+    padding: 10px 20px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 0.95rem;
+    border-radius: 4px;
+    text-transform: uppercase;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+.navbar a:hover {
+    background-color: #343a40;
+    color: #fff;
+}
+.navbar a.active {
+    background-color: #d97736; /* Warm Copper highlight indicating active link */
+    color: #fff;
+}

@@ -2,21 +2,33 @@ const API_URL = 'http://localhost:8000/api';
 let localInventoryCache = []; 
 let isRegisterMode = false;
 
+
 document.addEventListener('DOMContentLoaded', () => {
     const savedUser = sessionStorage.getItem('staffUser');
-    if (savedUser) {
+    const isAuthPage = document.getElementById('authForm') !== null;
+
+    if (!savedUser) {
+        if (!isAuthPage) {
+            window.location.href = 'index.html';
+            return;
+        }
+    } else {
         showApp(savedUser);
     }
 });
 
-document.getElementById('authForm').addEventListener('submit', handleAuth);
-document.getElementById('bakeryForm').addEventListener('submit', addBatch);
+if (document.getElementById('authForm')) {
+    document.getElementById('authForm').addEventListener('submit', handleAuth);
+}
+if (document.getElementById('bakeryForm')) {
+    document.getElementById('bakeryForm').addEventListener('submit', addBatch);
+}
 
 function toggleAuthMode() {
     isRegisterMode = !isRegisterMode;
-    document.getElementById('authTitle').innerText = isRegisterMode ? "📝 Register Staff Account" : "🧁 FreshTrack Staff Login";
-    document.getElementById('authSubmitBtn').innerText = isRegisterMode ? "Register Account" : "Access Dashboard";
-    document.getElementById('authToggleLink').innerText = isRegisterMode ? "Already registered? Login" : "New staff? Create account";
+    document.getElementById('authTitle').innerText = isRegisterMode ? "📝 Register Staff Account" : "🥐 Bread 41 Staff Login";
+    document.getElementById('authSubmitBtn').innerText = isRegisterMode ? "Register Account" : "Access Production Logs";
+    document.getElementById('authToggleLink').innerText = isRegisterMode ? "Already registered? Login" : "New baker? Create account";
 }
 
 async function handleAuth(e) {
@@ -50,105 +62,123 @@ async function handleAuth(e) {
 }
 
 function showApp(username) {
-    document.getElementById('authScreen').style.display = 'none';
-    document.getElementById('appContainer').style.display = 'block';
-    document.getElementById('currentStaffLabel').innerText = username;
+    if (document.getElementById('authScreen')) {
+        document.getElementById('authScreen').style.display = 'none';
+    }
+    if (document.getElementById('appContainer')) {
+        document.getElementById('appContainer').style.display = 'block';
+    }
+    if (document.getElementById('currentStaffLabel')) {
+        document.getElementById('currentStaffLabel').innerText = username;
+    }
     fetchInventory();
 }
 
 function logout() {
     sessionStorage.removeItem('staffUser');
-    window.location.reload();
-}
-
-function switchTab(event, tabId) {
-    const contents = document.querySelectorAll('.tab-content');
-    contents.forEach(content => content.classList.remove('active-content'));
-    const buttons = document.querySelectorAll('.tab-btn');
-    buttons.forEach(btn => btn.classList.remove('active'));
-    document.getElementById(tabId).classList.add('active-content');
-    event.currentTarget.classList.add('active');
+    window.location.href = 'index.html';
 }
 
 async function fetchInventory() {
     try {
         const response = await fetch(`${API_URL}/inventory`);
         localInventoryCache = await response.json(); 
-        renderTable(localInventoryCache);
+        renderPageSpecificData(localInventoryCache);
     } catch (err) {
         console.error("Failed to connect with API:", err);
     }
 }
 
-function renderTable(items) {
+function renderPageSpecificData(items) {
     const inventoryBody = document.getElementById('inventoryTableBody');
     const wasteBody = document.getElementById('wasteTableBody');
-    inventoryBody.innerHTML = ''; wasteBody.innerHTML = '';
+    
+    if (inventoryBody) inventoryBody.innerHTML = ''; 
+    if (wasteBody) wasteBody.innerHTML = '';
 
-    const today = new Date(); today.setHours(0, 0, 0, 0);
-    let activeCount = 0; let wasteCount = 0;
+    const today = new Date(); 
+    today.setHours(0, 0, 0, 0);
+    
+    let activeCount = 0; 
+    let wasteCount = 0;
 
     items.forEach(item => {
-        const expiryDate = new Date(item.expiryDate); expiryDate.setHours(0,0,0,0);
+        const expiryDate = new Date(item.expiryDate); 
+        expiryDate.setHours(0,0,0,0);
         const daysLeft = Math.ceil((expiryDate.getTime() - today.getTime()) / 86400000);
 
         if (daysLeft < 0) {
             wasteCount++;
-            const tr = document.createElement('tr'); tr.className = 'status-expired';
-            tr.innerHTML = `<td><strong>${item.itemName}</strong></td><td><span class="category-tag">${item.category}</span></td><td>${item.expiryDate}</td><td><button class="delete-btn" onclick="deleteItem(${item.id})">Dispose</button></td>`;
-            wasteBody.appendChild(tr);
+            if (wasteBody) {
+                const tr = document.createElement('tr'); 
+                tr.className = 'status-expired';
+                tr.innerHTML = `<td><strong>${item.itemName}</strong></td><td><span class="category-tag">${item.category}</span></td><td>${item.expiryDate}</td><td><button class="delete-btn" onclick="deleteItem(${item.id})">Dispose</button></td>`;
+                wasteBody.appendChild(tr);
+            }
         } else {
             activeCount++;
-            let statusLabel = daysLeft === 0 ? 'Expires Today!' : (daysLeft <= 2 ? `${daysLeft} Days Left` : 'Safe / Fresh');
-            let rowAlertClass = daysLeft === 0 ? 'status-critical' : (daysLeft <= 2 ? 'status-warning' : 'status-fresh');
+            if (inventoryBody) {
+                let statusLabel = daysLeft === 0 ? '⚠️ Expires Today!' : (daysLeft <= 2 ? `⏳ ${daysLeft} Days Left` : '✅ Safe / Fresh');
+                let rowAlertClass = daysLeft === 0 ? 'status-critical' : (daysLeft <= 2 ? 'status-warning' : 'status-fresh');
 
-            const tr = document.createElement('tr'); tr.className = rowAlertClass;
-            tr.innerHTML = `<td><strong>${item.itemName}</strong></td><td><span class="category-tag">${item.category}</span></td><td>${item.expiryDate}</td><td><span class="badge">${statusLabel}</span></td><td><button class="delete-btn" onclick="deleteItem(${item.id})">Remove</button></td>`;
-            inventoryBody.appendChild(tr);
+                const tr = document.createElement('tr'); 
+                tr.className = rowAlertClass;
+                tr.innerHTML = `<td><strong>${item.itemName}</strong></td><td><span class="category-tag">${item.category}</span></td><td>${item.expiryDate}</td><td><span class="badge">${statusLabel}</span></td><td><button class="delete-btn" onclick="deleteItem(${item.id})">Remove</button></td>`;
+                inventoryBody.appendChild(tr);
+            }
         }
     });
-    document.getElementById('countFresh').innerText = activeCount;
-    document.getElementById('countWaste').innerText = wasteCount;
+
+    if (document.getElementById('countFresh')) {
+        document.getElementById('countFresh').innerText = activeCount;
+    }
+    if (document.getElementById('countWaste')) {
+        document.getElementById('countWaste').innerText = wasteCount;
+    }
 }
 
 function filterInventory() {
     const searchString = document.getElementById('searchInput').value.toLowerCase();
-    const filteredResults = localInventoryCache.filter(item => item.itemName.toLowerCase().includes(searchString));
-    renderTable(filteredResults);
+    const filteredResults = localInventoryCache.filter(item => {
+        const matchesSearch = item.itemName.toLowerCase().includes(searchString);
+        const isNotExpired = Math.ceil((new Date(item.expiryDate) - new Date().setHours(0,0,0,0)) / 86400000) >= 0;
+        return matchesSearch && isNotExpired;
+    });
+    
+    const inventoryBody = document.getElementById('inventoryTableBody');
+    if (inventoryBody) {
+        inventoryBody.innerHTML = '';
+        filteredResults.forEach(item => {
+            const expiryDate = new Date(item.expiryDate);
+            const daysLeft = Math.ceil((expiryDate - new Date().setHours(0,0,0,0)) / 86400000) >= 0;
+            let statusLabel = daysLeft === 0 ? '⚠️ Expires Today!' : (daysLeft <= 2 ? `⏳ ${daysLeft} Days Left` : '✅ Safe / Fresh');
+            let rowAlertClass = daysLeft === 0 ? 'status-critical' : (daysLeft <= 2 ? 'status-warning' : 'status-fresh');
+
+            const tr = document.createElement('tr'); 
+            tr.className = rowAlertClass;
+            tr.innerHTML = `<td><strong>${item.itemName}</strong></td><td><span class="category-tag">${item.category}</span></td><td>${item.expiryDate}</td><td><span class="badge">${statusLabel}</span></td><td><button class="delete-btn" onclick="deleteItem(${item.id})">Remove</button></td>`;
+            inventoryBody.appendChild(tr);
+        });
+    }
 }
 
 async function addBatch(e) {
-  async function addBatch(e) {
     e.preventDefault();
-    
     const itemNameInput = document.getElementById('itemName').value.trim();
     const categoryInput = document.getElementById('category').value;
     const expiryDateInput = document.getElementById('expiryDate').value;
 
-  
-
-
-
-    const selectedDate = new Date(expiryDateInput);
-    const maxFutureWindow = new Date();
-    maxFutureWindow.setFullYear(maxFutureWindow.getFullYear() + 1);
-
-    if (selectedDate > maxFutureWindow) {
-        alert("System Constraint Error: Expiration target cannot be further than 1 year in the future.");
-        return;
-    }
-
-    const payload = {
-        itemName: itemNameInput,
-        category: categoryInput,
-        expiryDate: expiryDateInput
-    };
+    const payload = { itemName: itemNameInput, category: categoryInput, expiryDate: expiryDateInput };
+    
     const response = await fetch(`${API_URL}/inventory`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
     });
-    if (response.ok) { document.getElementById('bakeryForm').reset(); fetchInventory(); }
+    if (response.ok) { 
+        document.getElementById('bakeryForm').reset(); 
+        fetchInventory(); 
+    }
 }
 
 async function deleteItem(id) {

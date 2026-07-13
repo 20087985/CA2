@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bread 41 - Waste Reporting</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="appContainer" style="display: none;">
+        <header>
+            <h1>🥐 Bread 41 Operations</h1>
+            <p>Real Bread Expiry Logs & Sustainability Monitor | Baker: <span id="currentStaffLabel">Staff</span> | <a href="#" onclick="logout()" style="color: #ffcdd2;">Logout</a></p>
+        </header>
+
+        <main>
+            <div class="navbar">
+                <a href="index.html">📋 Active Inventory</a>
+                <a href="waste.html" class="active">📊 Waste Reporting</a>
+                <a href="analytics.html">💡 Kitchen Analytics</a>
+            </div>
+
+            <div class="tab-content active-content">
+                <section class="card">
+                    <h2>Expired Batches Log (Action Required)</h2>
+                    <p style="color: #666; margin-bottom: 15px;">These items have exceeded food safety boundaries and must be composted immediately.</p>
+                    <table>
+                        <thead>
+                            <tr><th>Expired Item</th><th>Production Line</th><th>Expired On</th><th>Action</th></tr>
+                        </thead>
+                        <tbody id="wasteTableBody"></tbody>
+                    </table>
+                </section>
+            </div>
+        </main>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
