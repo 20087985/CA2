@@ -4,7 +4,7 @@ let isRegisterMode = false;
 
 
 let currentPage = 1;
-const recordsPerPage = 10;
+const recordsPerPage = 5;
 let globalInventory = [];
 
 document.addEventListener('DOMContentLoaded', () => {
