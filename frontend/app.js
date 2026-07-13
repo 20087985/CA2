@@ -3,6 +3,10 @@ let localInventoryCache = [];
 let isRegisterMode = false;
 
 
+let currentPage = 1;
+const recordsPerPage = 10;
+let globalInventory = [];
+
 document.addEventListener('DOMContentLoaded', () => {
     const savedUser = sessionStorage.getItem('staffUser');
     const isAuthPage = document.getElementById('authForm') !== null;
@@ -184,4 +188,33 @@ async function addBatch(e) {
 async function deleteItem(id) {
     const response = await fetch(`${API_URL}/inventory?id=${id}`, { method: 'DELETE' });
     if (response.ok) fetchInventory();
+}
+
+function renderTable() {
+    const tbody = document.getElementById("inventoryTableBody");
+    tbody.innerHTML = "";
+    const startIndex = (currentPage - 1) * recordsPerPage;
+    const endIndex = startIndex + recordsPerPage;
+    const pageItems = globalInventory.slice(startIndex, endIndex);
+
+    pageItems.forEach(item => {
+        const row = `<tr>
+            <td>${item.name}</td>
+            <td>${item.category}</td>
+            <td>${item.expiryDate}</td>
+            <td>${item.status}</td>
+            <td><button onclick="deleteItem(${item.id})">Remove</button></td>
+        </tr>`;
+        tbody.innerHTML += row;
+    });
+
+
+    document.getElementById("pageNumber").innerText = `Page ${currentPage}`;
+    document.getElementById("prevBtn").disabled = currentPage === 1;
+    document.getElementById("nextBtn").disabled = endIndex >= globalInventory.length;
+}
+
+function changePage(direction) {
+    currentPage += direction;
+    renderTable();
 }

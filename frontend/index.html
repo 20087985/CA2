@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bread 41 - Real Bread Expiry & Batch Tracker</title>
     <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
     <div id="authScreen" class="auth-overlay">
         <div class="auth-card">
@@ -23,7 +25,8 @@
     <div id="appContainer" style="display: none;">
         <header>
             <h1>🥐 Bread 41 Operations</h1>
-            <p>Real Bread Expiry Logs & Sustainability Monitor | Baker: <span id="currentStaffLabel">Staff</span> | <a href="#" onclick="logout()" style="color: #ffcdd2;">Logout</a></p>
+            <p>Real Bread Expiry Logs & Sustainability Monitor | Baker: <span id="currentStaffLabel">Staff</span> | <a
+                    href="#" onclick="logout()" style="color: #ffcdd2;">Logout</a></p>
         </header>
 
         <main>
@@ -38,7 +41,8 @@
                     <h2>Log Morning Bake / Fermentation Batch</h2>
                     <form id="bakeryForm">
                         <div class="form-group">
-                            <input type="text" id="itemName" placeholder="Item Name (e.g., House Sourdough, Almond Croissant)" required>
+                            <input type="text" id="itemName"
+                                placeholder="Item Name (e.g., House Sourdough, Almond Croissant)" required>
                         </div>
                         <div class="form-group">
                             <select id="category" required>
@@ -60,18 +64,20 @@
                 <section class="card">
                     <h2>Active Expiry Alerts & Inventory</h2>
                     <div class="filter-panel">
-                        <input type="text" id="searchInput" placeholder="🔍 Search active bakes..." onkeyup="filterInventory()">
+                        <input type="text" id="searchInput" placeholder="🔍 Search active bakes..."
+                            onkeyup="filterInventory()">
                     </div>
-                    <table>
-                        <thead>
-                            <tr><th>Batch Item</th><th>Production Line</th><th>Expiry Date</th><th>Shelf-Life Status</th><th>Action</th></tr>
-                        </thead>
-                        <tbody id="inventoryTableBody"></tbody>
-                    </table>
+                    <div class="pagination-controls"
+                        style="display: flex; gap: 10px; justify-content: center; margin-top: 15px;">
+                        <button id="prevBtn" onclick="changePage(-1)" class="btn-small">Previous</button>
+                        <span id="pageNumber" style="align-self: center; font-weight: bold;">Page 1</span>
+                        <button id="nextBtn" onclick="changePage(1)" class="btn-small">Next</button>
+                    </div>
                 </section>
             </div>
         </main>
     </div>
     <script src="app.js"></script>
 </body>
+
 </html>
