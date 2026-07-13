@@ -21,3 +21,4 @@ jobs:
           script: |
             cd /var/www/html
             git pull origin main
+            sudo systemctl restart bakery-backend
