@@ -85,29 +85,24 @@ This project is configured with an automated GitOps delivery pipeline via GitHub
 * Open your browser and open index.html from the root directory to access the dynamic web portal.
 
 
-## 📚 10. References & Technical Citations
+## 10. References & Technical Citations
 
-### 🌐 Documentation & Web Standards
+### Documentation & Web Standards
 * **W3Schools** (2026). *HTML Forms and JavaScript Web APIs*. Available at: [https://www.w3schools.com/html/](https://www.w3schools.com/html/) and [https://www.w3schools.com/js/](https://www.w3schools.com/js/) (Accessed: July 2026).
 * **Mozilla Developer Network (MDN) Web Docs** (2026). *DOM Event Architecture and Fetch API*. Available at: [https://developer.mozilla.org/en-US/](https://developer.mozilla.org/en-US/) (Accessed: July 2026).
 * **Python Software Foundation** (2026). *BaseHTTPRequestHandler and SocketServer Libraries*. Python 3.10 Documentation. Available at: [https://docs.python.org/3/library/http.server.html](https://docs.python.org/3/library/http.server.html) (Accessed: July 2026).
 * **Python Software Foundation** (2026). *Unittest — Unit testing framework*. Python 3.10 Documentation. Available at: [https://docs.python.org/3/library/unittest.html](https://docs.python.org/3/library/unittest.html) (Accessed: July 2026).
 * **Google Cloud Platform** (2026). *Compute Engine VM Instance & VPC Firewall Documentation*. Available at: [https://cloud.google.com/docs](https://cloud.google.com/docs) (Accessed: July 2026).
 
----
-
-## ✍️ 11. Complete Summary of Attributions & AI Scale
-
-As mandated by Dublin Business School Academic Integrity guidelines and the Generative AI Assessment Scale, the following log details all instances where Generative AI was leveraged to assist with this project:
 
 
-### 📝 Detailed AI Contribution Log
+### Detailed AI Contribution Log
 
 | **Authentication & UI Layout** | W3C HTML Specs & Gemini | Adapted the baseline HTML5 registration/login forms. Used Gemini to clean up errors in the JavaScript session authentication verification. |
 | **CSS Styling (Main App)** | Gemini helped to style the grids, table and the views. 
 | **Backend Delete Handler** | Gemini | Assisted in structuring the `do_DELETE` parsing methods in our native Python `server.py`. |
-| **Client Fetching & DOM Logic** | Gemini | Assisted with identifying asynchronous callback issues in the API fetch operations and rendering live mock arrays. |
-| **CI/CD Configuration** | GitHub Docs & Gemini | Formatted the workspace path boundaries (`working-directory: backend`) for the GitHub Actions pipeline runner in `deploy.yml`. |
+| **Client Fetching & DOM Logic** | Gemini | Assisted with identifying asynchronous callback issues in the API fetch operations |
+| **CI/CD Configuration** | GitHub Docs & Gemini helped in the google cloud deployment and github actions setup
 
 ### DECLARATION OF ACADEMIC INTEGRITY
 
