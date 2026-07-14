@@ -53,6 +53,20 @@ class TestBakeryBackend(unittest.TestCase):
         self.assertTrue(len(data) > 0)
         self.assertEqual(data[0]["itemName"], "Almond Croissant")
 
+    def test_delete_batch(self):
+        test_item = {
+            "id": 123,
+            "itemName": "Morning Bun",
+            "category": "Laminated Pastries",
+            "expiryDate": "2026-07-14"
+        }
+        inventory_db.append(test_item)
+
+        response = self.app.delete('/api/inventory?id=123')
+        self.assertEqual(response.status_code, 200)
+        
+        self.assertEqual(len(inventory_db), 0)
+
 
 if __name__ == '__main__':
     unittest.main()
