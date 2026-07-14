@@ -1,105 +1,106 @@
-
 import unittest
 import json
 import os
-import sys
+import threading
+import time
+import urllib.request
+import urllib.error
 
 
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+from server import run_server, PORT
 
-
-from server import app, inventory_db  
-
-class TestBakeryBackend(unittest.TestCase):
-    def setUp(self):
-        self.app = app.test_client()
-        self.app.testing = True
+class TestBakeryBackendHTTP(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        """Start the HTTP server in a background thread on a test port."""
+        cls.test_port = 8001
+        cls.base_url = f"http://127.0.0.1:{cls.test_port}/api"
         
-        self.original_inventory = list(inventory_db)
-        inventory_db.clear()
-    
-    def tearDown(self):
-        inventory_db.clear()
-        inventory_db.extend(self.original_inventory)
 
-    def test_create_batch(self):
+        cls.db_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'database.json')
+        cls.backup_path = cls.db_path + '.bak'
+        if os.path.exists(cls.db_path):
+            os.rename(cls.db_path, cls.backup_path)
+            
+
+        with open(cls.db_path, 'w') as f:
+            json.dump({"users": [], "inventory": []}, f)
+
+
+        import server
+        server.PORT = cls.test_port
+
+ 
+        cls.server_thread = threading.Thread(target=run_server, daemon=True)
+        cls.server_thread.start()
+        
+
+        time.sleep(0.5)
+
+    @classmethod
+    def tearDownClass(cls):
+        """Restore the original database once all tests finish."""
+        if os.path.exists(cls.db_path):
+            os.remove(cls.db_path)
+        if os.path.exists(cls.backup_path):
+            os.rename(cls.backup_path, cls.db_path)
+
+    def test_a_create_batch(self):
+        """Test CREATE: Log a new production line entry via POST."""
+        url = f"{self.base_url}/inventory"
         payload = {
-            "itemName": "Organic Sourdough",
+            "itemName": "Sourdough Boule",
             "category": "Sourdough & Loaves",
-            "expiryDate": "2026-07-16"
+            "expiryDate": "2026-07-20"
         }
-        response = self.app.post('/api/inventory', 
-                                 data=json.dumps(payload), 
-                                 content_type='application/json')
+        data = json.dumps(payload).encode('utf-8')
         
-        self.assertEqual(response.status_code, 200)
-        data = json.loads(response.data)
-        self.assertIn("id", data)
-        self.assertEqual(data["itemName"], "Organic Sourdough")
-
-    def test_read_inventory(self):
-        test_item = {
-            "id": 999,
-            "itemName": "Almond Croissant",
-            "category": "Laminated Pastries",
-            "expiryDate": "2026-07-15"
-        }
-        inventory_db.append(test_item)
-
-        response = self.app.get('/api/inventory')
-        self.assertEqual(response.status_code, 200)
+        req = urllib.request.Request(
+            url, 
+            data=data, 
+            headers={'Content-Type': 'application/json'},
+            method='POST'
+        )
         
-        data = json.loads(response.data)
-        self.assertTrue(len(data) > 0)
-        self.assertEqual(data[0]["itemName"], "Almond Croissant")
+        with urllib.request.urlopen(req) as response:
+            self.assertEqual(response.status)
+            res_data = json.loads(response.read().decode('utf-8'))
+            self.assertEqual(res_data["itemName"], "Sourdough Boule")
+            self.assertIn("id", res_data)
 
-    def test_delete_batch(self):
-        test_item = {
-            "id": 123,
-            "itemName": "Morning Bun",
-            "category": "Laminated Pastries",
-            "expiryDate": "2026-07-14"
-        }
-        inventory_db.append(test_item)
-
-        response = self.app.delete('/api/inventory?id=123')
-        self.assertEqual(response.status_code, 200)
+    def test_b_read_inventory(self):
+        """Test READ: Retrieve logged entries via GET."""
+        url = f"{self.base_url}/inventory"
+        req = urllib.request.Request(url, method='GET')
         
-        self.assertEqual(len(inventory_db), 0)
+        with urllib.request.urlopen(req) as response:
+            self.assertEqual(response.status)
+            res_data = json.loads(response.read().decode('utf-8'))
+            self.assertTrue(isinstance(res_data, list))
+            self.assertTrue(len(res_data) > 0)
+            self.assertEqual(res_data[0]["itemName"], "Sourdough Boule")
 
-    def test_full_crud_integration(self):
-        """Integration Test: Test the entire lifecycle of an inventory batch."""
-        create_payload = {
-            "itemName": "Integration Test Toastie",
-            "category": "Eats & Sandwiches",
-            "expiryDate": "2026-07-18"
-        }
-        create_response = self.app.post('/api/inventory', 
-                                         data=json.dumps(create_payload), 
-                                         content_type='application/json')
-        self.assertEqual(create_response.status_code, 200)
-        created_item = json.loads(create_response.data)
-        item_id = created_item["id"]
+    def test_c_delete_batch(self):
+        """Test DELETE: Remove a specific batch entry via DELETE request."""
+        url_get = f"{self.base_url}/inventory"
+        with urllib.request.urlopen(url_get) as get_res:
+            items = json.loads(get_res.read().decode('utf-8'))
+            item_id = items[0]['id']
 
-        read_response = self.app.get('/api/inventory')
-        self.assertEqual(read_response.status_code, 200)
-        current_inventory = json.loads(read_response.data)
+
+        url_delete = f"{self.base_url}/inventory?id={item_id}"
+        req = urllib.request.Request(url_delete, method='DELETE')
         
-
-        found_item = next((item for item in current_inventory if item["id"] == item_id), None)
-        self.assertIsNotNone(found_item)
-        self.assertEqual(found_item["itemName"], "Integration Test Toastie")
-
-   
-        delete_response = self.app.delete(f'/api/inventory?id={item_id}')
-        self.assertEqual(delete_response.status_code, 200)
+        with urllib.request.urlopen(req) as response:
+            self.assertEqual(response.status)
+            res_data = json.loads(response.read().decode('utf-8'))
+            self.assertEqual(res_data["message"], "Removed successfully")
 
 
-        post_delete_response = self.app.get('/api/inventory')
-        post_delete_inventory = json.loads(post_delete_response.data)
-        item_still_exists = any(item["id"] == item_id for item in post_delete_inventory)
-        self.assertFalse(item_still_exists)
-
+        with urllib.request.urlopen(url_get) as verify_res:
+            remaining_items = json.loads(verify_res.read().decode('utf-8'))
+            item_exists = any(item['id'] == item_id for item in remaining_items)
+            self.assertFalse(item_exists)
 
 if __name__ == '__main__':
     unittest.main()
