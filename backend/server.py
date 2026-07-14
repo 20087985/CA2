@@ -35,7 +35,6 @@ class BakeryInventoryHandler(BaseHTTPRequestHandler):
             db_data = json.load(f)
 
             if self.path == "/api/register":
-                # Check if username exists
                 if any(u['username'] == payload['username'] for u in db_data['users']):
                     self._set_headers(400)
                     self.wfile.write(bytes(json.dumps({"message": "User exists"}), "utf-8"))

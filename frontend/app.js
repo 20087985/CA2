@@ -5,7 +5,6 @@ let isRegisterMode = false;
 
 let currentPage = 1;
 const recordsPerPage = 5;
-let globalInventory = [];
 
 document.addEventListener('DOMContentLoaded', () => {
     const savedUser = sessionStorage.getItem('staffUser');
@@ -32,7 +31,7 @@ function toggleAuthMode() {
     if (document.getElementById('authForm')) {
         document.getElementById('authForm').reset();
     }
-    
+
     isRegisterMode = !isRegisterMode;
     document.getElementById('authTitle').innerText = isRegisterMode ? "📝 Register Staff Account" : "🥐 Bread 41 Staff Login";
     document.getElementById('authSubmitBtn').innerText = isRegisterMode ? "Register Account" : "Access Production Logs";
