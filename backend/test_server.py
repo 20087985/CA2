@@ -37,6 +37,22 @@ class TestBakeryBackend(unittest.TestCase):
         self.assertIn("id", data)
         self.assertEqual(data["itemName"], "Organic Sourdough")
 
+    def test_read_inventory(self):
+        test_item = {
+            "id": 999,
+            "itemName": "Almond Croissant",
+            "category": "Laminated Pastries",
+            "expiryDate": "2026-07-15"
+        }
+        inventory_db.append(test_item)
+
+        response = self.app.get('/api/inventory')
+        self.assertEqual(response.status_code, 200)
+        
+        data = json.loads(response.data)
+        self.assertTrue(len(data) > 0)
+        self.assertEqual(data[0]["itemName"], "Almond Croissant")
+
 
 if __name__ == '__main__':
     unittest.main()
