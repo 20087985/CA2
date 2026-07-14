@@ -63,7 +63,7 @@ class TestBakeryBackendHTTP(unittest.TestCase):
         )
         
         with urllib.request.urlopen(req) as response:
-            self.assertEqual(response.status)
+            self.assertEqual(response.status, 201)
             res_data = json.loads(response.read().decode('utf-8'))
             self.assertEqual(res_data["itemName"], "Sourdough Boule")
             self.assertIn("id", res_data)
@@ -74,7 +74,7 @@ class TestBakeryBackendHTTP(unittest.TestCase):
         req = urllib.request.Request(url, method='GET')
         
         with urllib.request.urlopen(req) as response:
-            self.assertEqual(response.status)
+            self.assertEqual(response.status, 200)
             res_data = json.loads(response.read().decode('utf-8'))
             self.assertTrue(isinstance(res_data, list))
             self.assertTrue(len(res_data) > 0)
@@ -92,7 +92,7 @@ class TestBakeryBackendHTTP(unittest.TestCase):
         req = urllib.request.Request(url_delete, method='DELETE')
         
         with urllib.request.urlopen(req) as response:
-            self.assertEqual(response.status)
+            self.assertEqual(response.status, 200)
             res_data = json.loads(response.read().decode('utf-8'))
             self.assertEqual(res_data["message"], "Removed successfully")
 
