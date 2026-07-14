@@ -2,7 +2,6 @@ const API_URL = "http://34.105.141.153:8000/api";
 let localInventoryCache = []; 
 let isRegisterMode = false;
 
-
 let currentPage = 1;
 const recordsPerPage = 5;
 
@@ -96,8 +95,6 @@ async function fetchInventory() {
     }
 }
 
-
-
 function filterInventory() {
     const searchString = document.getElementById('searchInput').value.toLowerCase();
     const filteredResults = localInventoryCache.filter(item => {
@@ -157,7 +154,6 @@ function renderPageSpecificData(items) {
     const today = new Date(); 
     today.setHours(0, 0, 0, 0);
 
-
     let activeItems = [];
     let wasteCount = 0;
     let activeCount = 0;
@@ -181,10 +177,8 @@ function renderPageSpecificData(items) {
         }
     });
 
-
     if (document.getElementById('countFresh')) document.getElementById('countFresh').innerText = activeCount;
     if (document.getElementById('countWaste')) document.getElementById('countWaste').innerText = wasteCount;
-
 
     if (inventoryBody) {
         const startIndex = (currentPage - 1) * recordsPerPage;
@@ -201,7 +195,6 @@ function renderPageSpecificData(items) {
             inventoryBody.appendChild(tr);
         });
 
-  
         if (document.getElementById("pageNumber")) {
             document.getElementById("pageNumber").innerText = `Page ${currentPage}`;
             document.getElementById("prevBtn").disabled = currentPage === 1;
@@ -210,8 +203,31 @@ function renderPageSpecificData(items) {
     }
 }
 
-
 function changePage(direction) {
     currentPage += direction;
     renderPageSpecificData(localInventoryCache);
+}
+
+function switchTab(event, tabId) {
+    event.preventDefault(); 
+
+    const sections = document.querySelectorAll('.tab-content-section');
+    sections.forEach(section => {
+        section.style.display = 'none';
+    });
+    
+    const activeSection = document.getElementById(tabId);
+    if (activeSection) {
+        activeSection.style.display = 'block';
+    }
+    
+    const navLinks = document.querySelectorAll('.navbar a');
+    navLinks.forEach(link => {
+        link.classList.remove('active');
+    });
+   
+    event.currentTarget.classList.add('active');
+    currentPage = 1; 
+    
+    fetchInventory();
 }
