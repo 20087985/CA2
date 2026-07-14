@@ -29,6 +29,10 @@ if (document.getElementById('bakeryForm')) {
 }
 
 function toggleAuthMode() {
+    if (document.getElementById('authForm')) {
+        document.getElementById('authForm').reset();
+    }
+    
     isRegisterMode = !isRegisterMode;
     document.getElementById('authTitle').innerText = isRegisterMode ? "📝 Register Staff Account" : "🥐 Bread 41 Staff Login";
     document.getElementById('authSubmitBtn').innerText = isRegisterMode ? "Register Account" : "Access Production Logs";
