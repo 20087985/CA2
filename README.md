@@ -98,7 +98,7 @@ This project is configured with an automated GitOps delivery pipeline via GitHub
 
 ### Detailed AI Contribution Log
 
-| **Authentication & UI Layout** | W3C HTML Specs & Gemini | Adapted the baseline HTML5 registration/login forms. Used Gemini to clean up errors in the JavaScript session authentication verification. |
+| **Authentication & UI Layout** | W3C HTML Specs & Gemini | Adapted the baseline HTML5 registration/login forms from w3school. Used Gemini to clean up errors in the JavaScript session authentication verification. |
 | **CSS Styling (Main App)** | Gemini helped to style the grids, table and the views. 
 | **Backend Delete Handler** | Gemini | Assisted in structuring the `do_DELETE` parsing methods in our native Python `server.py`. |
 | **Client Fetching & DOM Logic** | Gemini | Assisted with identifying asynchronous callback issues in the API fetch operations |
