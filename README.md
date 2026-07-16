@@ -7,16 +7,16 @@ Assignment Title: Bread 41 Expiry & Batch Tracker (Assessment 2)
 Submission Date:* July 13, 2026
 
 
-Bread 41 Expiry & Batch Tracker: 
+BREAD 41 EXPIRY & BATCH TRACKER: 
 Website for managing inventory for Braed 41 Bakery. Aims for the sustainable and zero waste operation of the bakery. This application tracks the production, shelf-life, and disposal of fresh daily sourdough bakes, pastries, and kitchen ferments.
 
 Live Application URL: `http://34.105.141.153/`
 Live API URL: `http://34.105.141.153:8000/api`
 
-Project Introduction & Overview:
+PROJECT INTRODUCTION & OVERVIEW:
 Bread 41 produces organic bread and other items with short, natural shelf lives. Managing active batches and monitoring expired products on the production floor is really important for the smooth operation.
 
-System Functionalities:
+SYSTEM FUNCTIONALITIES:
 Staff login and create new user. 
 Adding new Batches of items
 Displaying the items along with the number of days to expire in the table.
@@ -26,7 +26,7 @@ Filter option is also implemented to search for items in the table.
 The expired items will be automatically moved to the expired items table. 
 Analytics tab showing the count of the active and expired items.
 
-Project Core Files and Stack Used:
+PROJECT CORE FILES AND STACK USED:
 Frontend : Html and Javascript. 
 All the html contents of this project is writen on the index.html file and the javascript code can be seen on the app.js file. 
 Backend: Python.
@@ -35,12 +35,12 @@ Database: JSON file.
 deply.yml:  Automates testing and VM deployment upon every git commit.
 
 
-How to Install and Run Locally:
+HoW TO INSTALL AND RUN LOCALLY:
 Clone the repository.
 Navigate to backend directory and run the backend server locally using Python: python3 server.py.
 To see the frontend open the browser and ope the index.html
 
-References:
+REFERENCES:
 HTML Forms and JavaScript Web APIs. Available at: [https://www.w3schools.com/html/][https://www.w3schools.com/html/] and [https://www.w3schools.com/js/][https://www.w3schools.com/js/]
 
 Mozilla Developer Network (MDN) Web Docs (2026). DOM Event Architecture and Fetch API. Available at: [https://developer.mozilla.org/en-US/][https://developer.mozilla.org/en-US/].
