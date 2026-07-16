@@ -22,6 +22,7 @@ jobs:
         working-directory: backend
         run: |
           python3 -m unittest test_server.py
+
   deploy:
     runs-on: ubuntu-latest
     steps:
@@ -37,4 +38,3 @@ jobs:
           script: |
             cd /var/www/html
             git pull origin main
-            sudo systemctl restart bakery-backend
