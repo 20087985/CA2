@@ -51,6 +51,14 @@ Python Software Foundation (2026). Unittest — Unit testing framework. Python 3
 Google Cloud Platform (2026). Compute Engine VM Instance & VPC Firewall Documentation. Available at: [https://cloud.google.com/docs],[https://cloud.google.com/docs].
 
 
+AI CONTRIBUTIONS:
+Authentication and UI layout : Referenced W3 school for baseline HTML login forms. Used Gemini to solve errors in javascript authentication. 
+CSS Styling: Took help from gemini for CSS of tables, grids and views.
+Backend Implementation: Took help from setting up backend server and pot setup.  
+Backend Delete handler : There were some issues with the delete API. Gemini helped to fix the issues with that. 
+Gemini assisted in identifying issues in callback fetch operations. 
+CI/CD Configuration: Refered github documentations and also took help from gemini to setup the deploy.yml file to configure the deployment and fixing the deployment issues. 
+Testcase: Refered the python documentation on unit test along with that took help from gemini to write the testcases. 
 
 
 
