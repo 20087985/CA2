@@ -40,6 +40,20 @@ Clone the repository.
 Navigate to backend directory and run the backend server locally using Python: python3 server.py.
 To see the frontend open the browser and ope the index.html
 
+References:
+HTML Forms and JavaScript Web APIs. Available at: [https://www.w3schools.com/html/][https://www.w3schools.com/html/] and [https://www.w3schools.com/js/][https://www.w3schools.com/js/]
+
+Mozilla Developer Network (MDN) Web Docs (2026). DOM Event Architecture and Fetch API. Available at: [https://developer.mozilla.org/en-US/][https://developer.mozilla.org/en-US/].
+
+
+Python Software Foundation (2026). Unittest — Unit testing framework. Python 3.10 Documentation. Available at: [https://docs.python.org/3/library/unittest.html],[https://docs.python.org/3/library/unittest.html].
+
+Google Cloud Platform (2026). Compute Engine VM Instance & VPC Firewall Documentation. Available at: [https://cloud.google.com/docs],[https://cloud.google.com/docs].
+
+
+
+
+
 
 DECLARATION OF ACADEMIC INTEGRITY
 
