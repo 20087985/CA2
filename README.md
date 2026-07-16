@@ -24,7 +24,22 @@ The table display alerting the staff on items which are soon to expire.
 Delete option to remove the items from the teble. 
 Filter option is also implemented to search for items in the table.
 The expired items will be automatically moved to the expired items table. 
-Analytics tab showing the count of the active and expired items. 
+Analytics tab showing the count of the active and expired items.
+
+Project Core Files and Stack Used:
+Frontend : Html and Javascript. 
+All the html contents of this project is writen on the index.html file and the javascript code can be seen on the app.js file. 
+Backend: Python.
+Backend logic is implemented in the server.py file. Have POST, UPDATE GET and DELETE APIS.
+Database: JSON file.
+deply.yml:  Automates testing and VM deployment upon every git commit.
+
+
+How to Install and Run Locally:
+Clone the repository.
+Navigate to backend directory and run the backend server locally using Python: python3 server.py.
+To see the frontend open the browser and ope the index.html
+
 
 DECLARATION OF ACADEMIC INTEGRITY
 
