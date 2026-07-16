@@ -1,10 +1,10 @@
-Student Name: Basima Salim
-Student Number: 20087985
-Module Lecturer: Paul Laird
-Programme: Master of Science in Information Systems with Computing
-Module/Subject Title: B9IS123 - PROGRAMMING FOR INFORMATION SYSTEMS
-Assignment Title: Bread 41 Expiry & Batch Tracker (Assessment 2)
-Submission Date:* July 13, 2026
+Student Name: Basima Salim,
+Student Number: 20087985,
+Module Lecturer: Paul Laird,
+Programme: Master of Science in Information Systems with Computing,
+Module/Subject Title: B9IS123 - PROGRAMMING FOR INFORMATION SYSTEMS,
+Assignment Title: Bread 41 Expiry & Batch Tracker (Assessment 2),
+Submission Date: July 13, 2026.
 
 
 BREAD 41 EXPIRY & BATCH TRACKER: 
